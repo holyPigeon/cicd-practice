@@ -14,17 +14,16 @@ jobs:
         env:
           APPLICATION_PROPERTIES: ${{ secrets.APPLICATION_YML }}
         with:
-          host: ${{ secrets.SERVER_HOST }} # EC2의 주소
-          username: ${{ secrets.SERVER_USERNAME }} # EC2 접속 username
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USERNAME }}
           password: ${{ secrets.SERVER_PASSWORD }}
           envs: APPLICATION_YML
-          script_stop: true # 아래 script 중 실패하는 명령이 하나라도 있으면 실패로 처리
+          script_stop: true
           script: |
-            cd /home/ubuntu/cicd-practice # 여기 경로는 자신의 EC2에 맞는 경로로 재작성하기
+            cd /home/ubuntu/cicd-practice
             rm -rf src/main/resources/application.yml
             git pull origin main
             echo "$APPLICATION_YML" > src/main/resources/application.yml
             ./gradlew clean build
-            sudo fuser -k -n tcp 8080 || true # || true를 붙인 이유는 8080에 종료시킬 프로세스가 없더라도 실패로 처리하지 않기 위해서이다. 
-            # jar 파일을 실행시키는 명령어이다. 그리고 발생하는 로그들을 ./output.log 파일에 남기는 명령어이다.
+            sudo fuser -k -n tcp 8080 || true
             nohup java -jar build/libs/*SNAPSHOT.jar > ./output.log 2>&1 & 
