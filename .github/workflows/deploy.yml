@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: SSH 서버 접속
-      - uses: appleboy/ssh-action@v1.0.3
+        uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.SERVER_HOST }} # EC2의 주소
           username: ${{ secrets.SERVER_USERNAME }} # EC2 접속 username
