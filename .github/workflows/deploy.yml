@@ -52,10 +52,10 @@ jobs:
           password: ${{ secrets.SERVER_PASSWORD }}
           port: ${{ secrets.SERVER_PORT }}
           script: |
-            echo "ENV FILE PATH: ${{ secrets.ENV_FILE_PATH }}"
-            cd /home/ubuntu/my-app
-            docker compose --env-file ${{ secrets.ENV_FILE_PATH }} pull
-            docker compose --env-file ${{ secrets.ENV_FILE_PATH }} up -d
+            echo "ENV FILE PATH: ${{ secrets.ENV_PATH }}"
+            cd ${{ secrets.ENV_PATH }}
+            docker compose --env-file ${{ secrets.ENV_PATH }} pull
+            docker compose --env-file ${{ secrets.ENV_PATH }} up -d
 
   check:
     needs: deploy
