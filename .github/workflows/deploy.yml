@@ -46,15 +46,17 @@ jobs:
 
       - name: "애플리케이션 서버를 구동한다."
         uses: appleboy/ssh-action@v1.1.0
+        env:
+          ENV_PATH: ${{ secrets.ENV_PATH }}
         with:
           host: ${{ secrets.SERVER_HOST }}
           username: ${{ secrets.SERVER_USERNAME }}
           password: ${{ secrets.SERVER_PASSWORD }}
           port: ${{ secrets.SERVER_PORT }}
           script: |
-            echo "파일 존재 여부:"
-            ls -l ${{ secrets.ENV_PATH }}
-            cd ${{ secrets.ENT_PATH }}
+            echo "ENV PATH: $ENV_PATH"
+            cd $ENV_PATH
+            ls -al
             docker compose --env-file ${{ secrets.ENV_PATH }} pull
             docker compose --env-file ${{ secrets.ENV_PATH }} up -d
 
