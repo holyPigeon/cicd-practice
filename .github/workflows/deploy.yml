@@ -53,7 +53,7 @@ jobs:
           port: ${{ secrets.SERVER_PORT }}
           script: |
             docker compose pull
-            docker compose --env-file .env up -d
+            docker compose --env-file ${{secrets.ENV_PATH}} up -d
 
   check:
     needs: deploy
