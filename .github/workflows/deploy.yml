@@ -52,8 +52,9 @@ jobs:
           password: ${{ secrets.SERVER_PASSWORD }}
           port: ${{ secrets.SERVER_PORT }}
           script: |
-            echo "ENV FILE PATH: ${{ secrets.ENV_PATH }}"
-            cd ${{ secrets.ENV_PATH }}
+            echo "파일 존재 여부:"
+            ls -l ${{ secrets.ENV_PATH }}
+            cd ${{ secrets.ENT_PATH }}
             docker compose --env-file ${{ secrets.ENV_PATH }} pull
             docker compose --env-file ${{ secrets.ENV_PATH }} up -d
 
