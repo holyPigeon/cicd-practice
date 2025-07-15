@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  spring-app:
+    image: ${DOCKER_USERNAME}/spring-app:latest
+    container_name: spring-app
+    ports:
+      - "8080:8080"
+    env_file:
+      - .env
+    depends_on:
+      - mysql
+    networks:
+      - custom-network
+
+  mysql:
+    image: mysql:8.0
+    container_name: acha-mysql
+    restart: always
+    ports:
+      - "3306:3306"
+    env_file:
+      - .env
+    volumes:
+      - db-data:/var/lib/mysql
+    networks:
+      - custom-network
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DATABASE: mydb
+      MYSQL_USER: appuser
+      MYSQL_PASSWORD: apppass
+
+networks:
+  custom-network:
+    driver: bridge
+
+volumes:
+  db-data:
