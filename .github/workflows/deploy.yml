@@ -52,8 +52,8 @@ jobs:
           password: ${{ secrets.SERVER_PASSWORD }}
           port: ${{ secrets.SERVER_PORT }}
           script: |
-            docker compose -f ${{ secrets.ENV_PATH }}/docker-sompose.yml pull
-            docker compose -f ${{ secrets.DOCKER_COMPOSE_PATH }}/docker-compose.yml --env-file ${{ secrets.ENV_PATH }} up -d
+            docker compose -f home/ubuntu/cicd-pratice/docker-sompose.yml pull
+            docker compose -f home/ubuntu/cicd-pratice/docker-compose.yml --env-file home/ubuntu/cicd-pratice/.env up -d
 
   check:
     needs: deploy
