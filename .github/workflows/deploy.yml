@@ -52,8 +52,9 @@ jobs:
           password: ${{ secrets.SERVER_PASSWORD }}
           port: ${{ secrets.SERVER_PORT }}
           script: |
-            docker compose -f cicd-pratice/docker-compose.yml pull
-            docker compose -f cicd-pratice/docker-compose.yml --env-file cicd-pratice/.env up -d
+            cd ./cicd/practice
+            docker compose docker-compose.yml pull
+            docker compose docker-compose.yml --env-file .env up -d
 
   check:
     needs: deploy
