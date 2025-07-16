@@ -53,7 +53,7 @@ jobs:
           port: ${{ secrets.SERVER_PORT }}
           script: |
             cd ./cicd-practice
-            docker compose  pull
+            docker compose pull
             docker compose --env-file .env up -d
 
   check:
