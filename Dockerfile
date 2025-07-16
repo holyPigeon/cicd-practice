@@ -3,7 +3,7 @@
 # ----------------------------------------------------------------------------------------------------------------------
 # Gradle 빌드 환경을 위해 JDK와 Alpine Linux 기반의 Temurin 이미지를 사용합니다.
 # 이 이미지는 빌드에 필요한 모든 도구(JDK)를 포함합니다.
-FROM openjdk:17-jdk-alpine AS build
+FROM openjdk:17-jdk-slim AS build
 
 # 컨테이너 내부의 작업 디렉토리를 /app으로 설정합니다.
 WORKDIR /app
