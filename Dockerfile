@@ -31,7 +31,7 @@ RUN ./gradlew clean build -x test --no-daemon
 # ----------------------------------------------------------------------------------------------------------------------
 # 애플리케이션 실행을 위한 경량화된 OpenJDK JRE 이미지를 사용합니다.
 # JRE는 JDK보다 훨씬 가벼워서 최종 이미지 크기를 줄여줍니다.
-FROM openjdk:17-jdk-alpine
+FROM openjdk:17-jdk-slim
 
 # 컨테이너 내부의 작업 디렉토리를 /app으로 설정합니다.
 WORKDIR /app
