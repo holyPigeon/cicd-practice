@@ -33,7 +33,7 @@ jobs:
 
       - name: Docker Hub 이미지 빌드 및 푸시
         run: |
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/spring-app:latest .
+          docker build --platform=linux/arm64 -t ${{ secrets.DOCKER_USERNAME }}/spring-app:latest .
           docker push ${{ secrets.DOCKER_USERNAME }}/spring-app:latest
 
   deploy:
