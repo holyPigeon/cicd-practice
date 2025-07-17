@@ -1,55 +1,9 @@
-# ----------------------------------------------------------------------------------------------------------------------
-# Stage 1: 빌드 단계 (Build Stage) - 애플리케이션 컴파일 및 JAR 생성
-# ----------------------------------------------------------------------------------------------------------------------
-# Gradle 빌드 환경을 위해 JDK와 Alpine Linux 기반의 Temurin 이미지를 사용합니다.
-# 이 이미지는 빌드에 필요한 모든 도구(JDK)를 포함합니다.
-FROM openjdk:17-jdk-slim AS build
+FROM openjdk:17
 
-# 컨테이너 내부의 작업 디렉토리를 /app으로 설정합니다.
-WORKDIR /app
+ENV TZ=Asia/Seoul
 
-# Gradle Wrapper 파일과 설정 파일들을 먼저 복사하여 Docker 캐싱을 활용합니다.
-# 이 파일들이 변경되지 않으면 이 단계는 재빌드되지 않아 빌드 속도가 빨라집니다.
-COPY gradlew .
-RUN chmod +x gradlew
-COPY gradle ./gradle
-COPY build.gradle .
-COPY settings.gradle .
+ARG JAR_FILE=build/libs/*.jar
 
-# 의존성을 미리 다운로드하여 캐시합니다.
-# 실제 소스코드 변경 시에도 의존성 변경이 없다면 이 단계는 다시 실행되지 않습니다.
-RUN ./gradlew dependencies --no-daemon
+COPY ${JAR_FILE} app.jar
 
-# 전체 소스 코드를 복사합니다.
-COPY src ./src
-
-# 실제 스프링 부트 애플리케이션을 빌드합니다.
-# 테스트는 건너뛰도록 (-x test) 설정하여 빌드 시간을 단축합니다.
-RUN ./gradlew clean build -x test --no-daemon
-
-# ----------------------------------------------------------------------------------------------------------------------
-# Stage 2: 실행 단계 (Run Stage) - 최종 애플리케이션 실행 환경
-# ----------------------------------------------------------------------------------------------------------------------
-# 애플리케이션 실행을 위한 경량화된 OpenJDK JRE 이미지를 사용합니다.
-# JRE는 JDK보다 훨씬 가벼워서 최종 이미지 크기를 줄여줍니다.
-FROM openjdk:17-jdk-slim
-
-# 컨테이너 내부의 작업 디렉토리를 /app으로 설정합니다.
-WORKDIR /app
-
-# Stage 1 (build 스테이지)에서 생성된 JAR 파일을 복사합니다.
-# 'build/libs/' 경로의 '*.jar' 파일을 'app.jar'로 복사합니다.
-# 이 JAR 파일이 실제 실행될 애플리케이션입니다.
-COPY --from=build /app/build/libs/*.jar app.jar
-
-# 애플리케이션 실행 시 사용할 JVM 메모리 옵션을 설정하는 환경 변수입니다.
-# 필요에 따라 값을 조절하여 메모리 사용량을 최적화할 수 있습니다.
-ENV JAVA_OPTS="-Xms256m -Xmx512m"
-
-# 스프링 부트 애플리케이션이 외부와 통신할 포트(기본 8080)를 노출합니다.
-# 이 명령어는 문서화 목적이며, 실제 포트 개방은 'docker run -p' 명령으로 이루어집니다.
-EXPOSE 8080
-
-# 컨테이너가 시작될 때 실행될 명령어를 정의합니다.
-# '$JAVA_OPTS' 환경 변수를 적용하기 위해 'sh -c' 쉘 명령어를 사용합니다.
-ENTRYPOINT ["sh", "-c", "java $JAVA_OPTS -jar app.jar"]
+ENTRYPOINT ["java","-Duser.timezone=Asia/Seoul","-jar","/app.jar"]
