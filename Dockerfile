@@ -11,6 +11,7 @@ WORKDIR /app
 # Gradle Wrapper 파일과 설정 파일들을 먼저 복사하여 Docker 캐싱을 활용합니다.
 # 이 파일들이 변경되지 않으면 이 단계는 재빌드되지 않아 빌드 속도가 빨라집니다.
 COPY gradlew .
+RUN chmod +x gradlew
 COPY gradle ./gradle
 COPY build.gradle .
 COPY settings.gradle .
