@@ -63,17 +63,8 @@ jobs:
 
     steps:
       - name: "애플리케이션 서버 정상 동작 여부를 점검한다."
-        run: |
-          for i in {1..5}; do
-            echo "Attempt $i"
-            RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" http://${{ secrets.SERVER_HOST }}:${{ secrets.SERVER_PORT }}/actuator/health || true)
-            echo "HTTP status: $RESPONSE"
-            if [ "$RESPONSE" = "200" ]; then
-              echo "서버 정상 응답 확인됨"
-              exit 0
-            fi
-            sleep 5
-          done
-          echo "서버가 5번 시도 후에도 응답하지 않음"
-          exit 1
-        
+        uses: jtalk/url-health-check-action@v3
+        with:
+          url: http://${{ secrets.SERVER_HOST }}:8080/actuator/health
+          max-attempts: 5
+          retry-delay: 5s
