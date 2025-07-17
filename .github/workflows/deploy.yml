@@ -54,6 +54,7 @@ jobs:
           script: |
             cd ./cicd-practice
             docker compose pull
+            docker compose --env-file .env down --remove-orphans
             docker compose --env-file .env up -d
 
   check:
