@@ -1,11 +1,23 @@
 version: '3.8'
 
 services:
-  spring-app:
+  spring-blue:
     image: ${DOCKER_USERNAME}/spring-app:latest
-    container_name: spring-app
+    container_name: spring-blue
     ports:
-      - "8080:8080"
+      - "8081:8080"  # 내부 8080, 외부 8081로 매핑
+    env_file:
+      - .env
+    depends_on:
+      - mysql
+    networks:
+      - custom-network
+
+  spring-green:
+    image: ${DOCKER_USERNAME}/spring-app:latest
+    container_name: spring-green
+    ports:
+      - "8082:8080"  # 내부 8080, 외부 8082로 매핑
     env_file:
       - .env
     depends_on:

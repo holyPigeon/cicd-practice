@@ -54,8 +54,16 @@ jobs:
           script: |
             cd ./cicd-practice
             docker compose pull
-            docker compose --env-file .env down --remove-orphans
-            docker compose --env-file .env up -d
+  
+            # 현재 실행 중인 서비스 확인 (green이 running이면 blue 배포, 아니면 green 배포)
+            CURRENT=$(docker ps --format '{{.Names}}' | grep spring-green || true)
+            if [ -n "$CURRENT" ]; then
+              echo ">>> green is running. Switching to blue..."
+              bash ./scripts/switch-to-blue.sh
+            else
+              echo ">>> blue is running. Switching to green..."
+              bash ./scripts/switch-to-green.sh
+            fi
 
   check:
     needs: deploy
