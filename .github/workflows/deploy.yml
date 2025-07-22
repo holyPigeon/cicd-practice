@@ -52,18 +52,21 @@ jobs:
           password: ${{ secrets.SERVER_PASSWORD }}
           port: ${{ secrets.SERVER_PORT }}
           script: |
-            cd ./cicd-practice
-            docker compose pull
-  
-            # 현재 실행 중인 서비스 확인 (green이 running이면 blue 배포, 아니면 green 배포)
-            CURRENT=$(docker ps --format '{{.Names}}' | grep spring-green || true)
-            if [ -n "$CURRENT" ]; then
-              echo ">>> green is running. Switching to blue..."
-              bash ./scripts/switch-to-blue.sh
-            else
-              echo ">>> blue is running. Switching to green..."
-              bash ./scripts/switch-to-green.sh
-            fi
+            # [STEP 1] Nginx 포트 전환
+            chmod +x ./scripts/switch-port.sh
+            ./scripts/switch-port.sh
+      
+            # [STEP 2] 새로운 컨테이너 Pull 및 기동
+            chmod +x ./scripts/start-next-container.sh
+            ./scripts/start-next-container.sh
+      
+            # [STEP 3] 컨테이너 헬스체크
+            chmod +x ./scripts/health-check.sh
+            ./scripts/health-check.sh
+            
+            # [STEP 4] 이전 컨테이너 종료
+            chmod +x ./scripts/stop-prev-container.sh
+            ./scripts/stop-prev-container.sh
 
   check:
     needs: deploy
