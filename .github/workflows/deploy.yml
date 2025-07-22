@@ -44,27 +44,30 @@ jobs:
       - name: "레포지토리에서 체크아웃한다."
         uses: actions/checkout@v4
 
+      - name: "무중단 배포 관련 스크립트 파일을 서버에 복사한다."
+        uses: appleboy/scp-action@v0.1.4
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USERNAME }}
+          password: ${{ secrets.SERVER_PASSWORD }}
+          port: ${{ secrets.SERVER_SSH_PORT }}
+          source: ".github/workflows/scripts/*.sh"
+          target: "~/cicd-practice/.github/workflows/scripts"
+
       - name: "애플리케이션 서버를 구동한다."
         uses: appleboy/ssh-action@v1.1.0
         with:
           host: ${{ secrets.SERVER_HOST }}
           username: ${{ secrets.SERVER_USERNAME }}
           password: ${{ secrets.SERVER_PASSWORD }}
-          port: ${{ secrets.SERVER_PORT }}
+          port: ${{ secrets.SERVER_SSH_PORT }}
           script: |
-            cd ~/deploy-scripts
+            cd ~/cicd-practice/.github/workflows/scripts
             chmod +x *.sh
             
-            # [STEP 1] Nginx 포트 전환
             ./switch-port.sh
-      
-            # [STEP 2] 새로운 컨테이너 Pull 및 기동
             ./start-next-container.sh
-      
-            # [STEP 3] 컨테이너 헬스체크
             ./health-check.sh
-            
-            # [STEP 4] 이전 컨테이너 종료
             ./stop-prev-container.sh
 
   check:
