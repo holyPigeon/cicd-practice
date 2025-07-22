@@ -1,8 +1,7 @@
 #!/bin/bash
 set -e
 
-cd ./cicd-practice
-source ../.deploy-info.env
+cd ~/cicd-practice/.github/workflows/scripts
 
 echo "[INFO] Pulling and starting container: $NEXT_APP"
 
