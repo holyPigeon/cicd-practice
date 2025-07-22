@@ -31,6 +31,6 @@ sudo nginx -t && sudo nginx -s reload
 # 환경 변수를 파일로 저장
 cat <<EOF > .deploy-info.env
 ACTIVE_PORT=$ACTIVE_PORT
-NEXT=$NEXT
+NEXT_APP=$NEXT_APP
 NEXT_PORT=$NEXT_PORT
 EOF
