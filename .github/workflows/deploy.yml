@@ -51,7 +51,7 @@ jobs:
           username: ${{ secrets.SERVER_USERNAME }}
           password: ${{ secrets.SERVER_PASSWORD }}
           port: ${{ secrets.SERVER_SSH_PORT }}
-          source: ".github/workflows/scripts/*.sh"
+          source: ".github/workflows/scripts/"
           target: "~/cicd-practice/.github/workflows/scripts"
 
       - name: "애플리케이션 서버를 구동한다."
