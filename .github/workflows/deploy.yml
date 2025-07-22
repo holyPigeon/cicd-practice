@@ -52,7 +52,7 @@ jobs:
           password: ${{ secrets.SERVER_PASSWORD }}
           port: ${{ secrets.SERVER_SSH_PORT }}
           source: ".github/workflows/scripts/*.sh"
-          target: "~/cicd-practice/.github/workflows/scripts/"
+          target: "~/cicd-practice/"
 
       - name: "애플리케이션 서버를 구동한다."
         uses: appleboy/ssh-action@v1.1.0
