@@ -1,8 +1,9 @@
 #!/bin/bash
 set -e
 
-cd ./cicd-practice
-source ../.deploy-info.env
+cd ~/cicd-practice
+
+source .github/workflows/scripts/.deploy-info.env
 
 echo "[INFO] Stopping previous container..."
 
