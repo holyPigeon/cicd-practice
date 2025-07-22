@@ -41,10 +41,10 @@ jobs:
     runs-on: ubuntu-22.04
 
     steps:
-      - name: "레포지토리에서 체크아웃한다."
+      - name: "레포지토리 체크아웃"
         uses: actions/checkout@v4
 
-      - name: "docker-compose.yml을 scp 전송한다."
+      - name: "docker-compose.yml SCP 전송"
         uses: appleboy/scp-action@master
         with:
           host: ${{ secrets.SERVER_HOST }}
@@ -54,7 +54,7 @@ jobs:
           source: "./docker-compose.yml"
           target: "~/cicd-practice/"
 
-      - name: "무중단 배포 관련 스크립트 파일을 서버에 복사한다."
+      - name: "무중단 배포 관련 스크립트 SCP 전송"
         uses: appleboy/scp-action@master
         with:
           host: ${{ secrets.SERVER_HOST }}
@@ -64,7 +64,7 @@ jobs:
           source: ".github/workflows/scripts/*.sh"
           target: "~/cicd-practice/"
 
-      - name: "애플리케이션 서버를 구동한다."
+      - name: "애플리케이션 서버 구동"
         uses: appleboy/ssh-action@v1.1.0
         with:
           host: ${{ secrets.SERVER_HOST }}
@@ -85,7 +85,7 @@ jobs:
     runs-on: ubuntu-22.04
 
     steps:
-      - name: "애플리케이션 서버 정상 동작 여부를 점검한다."
+      - name: "애플리케이션 서버 정상 동작 여부 점검"
         uses: jtalk/url-health-check-action@v3
         with:
           url: http://${{ secrets.SERVER_HOST }}:8080/actuator/health
