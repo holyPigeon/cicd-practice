@@ -52,21 +52,20 @@ jobs:
           password: ${{ secrets.SERVER_PASSWORD }}
           port: ${{ secrets.SERVER_PORT }}
           script: |
+            cd ~/deploy-scripts
+            chmod +x *.sh
+            
             # [STEP 1] Nginx 포트 전환
-            chmod +x ./scripts/switch-port.sh
-            ./scripts/switch-port.sh
+            ./switch-port.sh
       
             # [STEP 2] 새로운 컨테이너 Pull 및 기동
-            chmod +x ./scripts/start-next-container.sh
-            ./scripts/start-next-container.sh
+            ./start-next-container.sh
       
             # [STEP 3] 컨테이너 헬스체크
-            chmod +x ./scripts/health-check.sh
-            ./scripts/health-check.sh
+            ./health-check.sh
             
             # [STEP 4] 이전 컨테이너 종료
-            chmod +x ./scripts/stop-prev-container.sh
-            ./scripts/stop-prev-container.sh
+            ./stop-prev-container.sh
 
   check:
     needs: deploy
