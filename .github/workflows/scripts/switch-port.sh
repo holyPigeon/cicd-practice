@@ -1,6 +1,4 @@
 #!/bin/bash
-set -e
-
 CONF="/etc/nginx/conf.d/app.conf"
 
 # 현재 사용 중인 포트 추출

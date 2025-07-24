@@ -1,6 +1,4 @@
 #!/bin/bash
-set -e
-
 cd ~/cicd-practice
 
 echo "[INFO] Pulling and starting container: $NEXT_APP"

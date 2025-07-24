@@ -1,6 +1,4 @@
 #!/bin/bash
-set -e
-
 echo "[INFO] Checking if $NEXT_APP is healthy on port $NEXT_PORT..."
 
 for i in {1..5}; do

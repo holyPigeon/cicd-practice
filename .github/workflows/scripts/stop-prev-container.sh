@@ -1,6 +1,4 @@
 #!/bin/bash
-set -e
-
 cd ~/cicd-practice
 
 echo "[INFO] Stopping previous container..."
