@@ -1,7 +1,6 @@
 #!/bin/bash
 set -e
-
-source .github/workflows/scripts/.deploy-info.env
+source ~/cicd-practice/.github/workflows/scripts/.deploy-info.env
 
 cd ~/cicd-practice
 
