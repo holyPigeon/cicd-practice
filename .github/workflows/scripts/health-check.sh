@@ -1,4 +1,8 @@
 #!/bin/bash
+set -e
+
+source .github/workflows/scripts/.deploy-info.env
+
 echo "[INFO] Checking if $NEXT_APP is healthy on port $NEXT_PORT..."
 
 for i in {1..5}; do

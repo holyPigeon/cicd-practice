@@ -76,12 +76,10 @@ jobs:
           password: ${{ secrets.SERVER_PASSWORD }}
           port: ${{ secrets.SERVER_SSH_PORT }}
           script: |
-            set -e
             cd ~/cicd-practice/.github/workflows/scripts
             chmod +x *.sh
             
             ./switch-port.sh && \
-            source .deploy-info.env && \
             ./start-next-container.sh && \
             ./health-check.sh && \
             ./stop-prev-container.sh && \
