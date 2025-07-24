@@ -8,6 +8,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-22.04
+    outputs:
+      active_port: ${{ steps.run-deploy-scripts.outputs.active_port }} # 새로운 컨테이너의 포트
 
     steps:
       - name: Github Repository 체크아웃
@@ -81,9 +83,7 @@ jobs:
             ./switch-port.sh
             source .deploy-info.env
             
-            ./start-next-container.sh
-            ./health-check.sh
-            ./stop-prev-container.sh
+            echo "active_port=$NEXT_PORT" >> $GITHUB_OUTPUT
 
   check:
     needs: deploy
@@ -93,6 +93,6 @@ jobs:
       - name: "애플리케이션 서버 정상 동작 여부 점검"
         uses: jtalk/url-health-check-action@v3
         with:
-          url: http://${{ secrets.SERVER_HOST }}:8080/actuator/health
+          url: http://${{ secrets.SERVER_HOST }}:${{ needs.deploy.outputs.active_port }}/actuator/health
           max-attempts: 5
           retry-delay: 5s
