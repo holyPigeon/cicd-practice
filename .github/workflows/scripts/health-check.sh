@@ -1,6 +1,5 @@
 #!/bin/bash
 set -e
-source .deploy-info.env
 
 echo "[INFO] Checking if $NEXT_APP is healthy on port $NEXT_PORT..."
 

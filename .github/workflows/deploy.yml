@@ -39,6 +39,8 @@ jobs:
   deploy:
     needs: build
     runs-on: ubuntu-22.04
+    outputs:
+      next_port: ${{ steps.run-deploy-scripts.outputs.next_port }} # 아래 스텝 ID를 참조합니다.
 
     steps:
       - name: "레포지토리 체크아웃"
@@ -76,6 +78,8 @@ jobs:
             chmod +x *.sh
             
             ./switch-port.sh
+            source .github/workflows/scripts/.deploy-info.env
+            
             ./start-next-container.sh
             ./health-check.sh
             ./stop-prev-container.sh

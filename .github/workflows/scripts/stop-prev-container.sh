@@ -3,8 +3,6 @@ set -e
 
 cd ~/cicd-practice
 
-source .github/workflows/scripts/.deploy-info.env
-
 echo "[INFO] Stopping previous container..."
 
 if [ "$ACTIVE_PORT" = "8081" ]; then
