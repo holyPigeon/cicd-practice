@@ -78,7 +78,7 @@ jobs:
             chmod +x *.sh
             
             ./switch-port.sh
-            source .github/workflows/scripts/.deploy-info.env
+            source .deploy-info.env
             
             ./start-next-container.sh
             ./health-check.sh
