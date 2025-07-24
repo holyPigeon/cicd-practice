@@ -80,8 +80,11 @@ jobs:
             cd ~/cicd-practice/.github/workflows/scripts
             chmod +x *.sh
             
-            ./switch-port.sh
-            source .deploy-info.env
+            ./switch-port.sh && \
+            source .deploy-info.env && \
+            ./start-next-container.sh && \
+            ./health-check.sh && \
+            ./stop-prev-container.sh && \
             
             echo "active_port=$NEXT_PORT" >> $GITHUB_OUTPUT
 
