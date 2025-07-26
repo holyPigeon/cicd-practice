@@ -77,8 +77,6 @@ jobs:
             cd ~/cicd-practice/.github/workflows/scripts
             chmod +x *.sh
             
-            ./switch-port.sh
-            
             source .deploy-info.env
             export ACTIVE_PORT
             export NEXT_APP
@@ -86,6 +84,7 @@ jobs:
             
             ./start-next-container.sh && \
             ./health-check.sh && \
+            ./switch-port.sh && \
             ./stop-prev-container.sh
 
   check:
