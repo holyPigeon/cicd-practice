@@ -1,7 +1,7 @@
 #!/bin/bash
 CONF="/etc/nginx/conf.d/app.conf"
 
-if grep -q "^[^#]*server localhost:8081;" "$CONF"; then
+if grep -q "^[^#]*server localhost:8082;" "$CONF"; then
   ACTIVE_PORT=8081
   NEXT_APP="spring-green"
   NEXT_PORT=8082
