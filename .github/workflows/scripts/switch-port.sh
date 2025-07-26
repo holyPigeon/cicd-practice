@@ -2,7 +2,7 @@
 CONF="/etc/nginx/conf.d/app.conf"
 
 # 현재 사용 중인 포트 추출
-if grep -q "server localhost:8081;" "$CONF"; then
+if grep -q "^[^#]*server localhost:8081;" "$CONF"; then
   # 현재 blue → green 전환
   echo "[INFO] Switching traffic to BLUE (8081)"
   sudo sed -i 's/^.*server localhost:8081;/# server localhost:8081;/' "$CONF"
