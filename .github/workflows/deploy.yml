@@ -8,8 +8,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-22.04
-    outputs:
-      active_port: ${{ steps.run-deploy-scripts.outputs.active_port }} # 새로운 컨테이너의 포트
 
     steps:
       - name: Github Repository 체크아웃
@@ -42,7 +40,7 @@ jobs:
     needs: build
     runs-on: ubuntu-22.04
     outputs:
-      next_port: ${{ steps.run-deploy-scripts.outputs.next_port }} # 아래 스텝 ID를 참조합니다.
+      active_port: ${{ steps.run-deploy-scripts.outputs.next_port }}
 
     steps:
       - name: "레포지토리 체크아웃"
@@ -76,10 +74,18 @@ jobs:
           password: ${{ secrets.SERVER_PASSWORD }}
           port: ${{ secrets.SERVER_SSH_PORT }}
           script: |
+            set -e
+            
             cd ~/cicd-practice/.github/workflows/scripts
             chmod +x *.sh
             
-            ./switch-port.sh && \
+            ./switch-port.sh
+            
+            source ~/cicd-practice/.github/workflows/scripts/.deploy-info.env
+            export ACTIVE_PORT
+            export NEXT_APP
+            export NEXT_PORT
+            
             ./start-next-container.sh && \
             ./health-check.sh && \
             ./stop-prev-container.sh && \
