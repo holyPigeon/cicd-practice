@@ -77,6 +77,7 @@ jobs:
             cd ~/cicd-practice/.github/workflows/scripts
             chmod +x *.sh
             
+            ./check-port.sh
             source .deploy-info.env
             export ACTIVE_PORT
             export NEXT_APP
