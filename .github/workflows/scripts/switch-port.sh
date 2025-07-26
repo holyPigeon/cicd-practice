@@ -13,8 +13,8 @@ if grep -q "server localhost:8081;" "$CONF"; then
 else
   # 현재 green → blue 전환
   echo "[INFO] Switching traffic to GREEN (8082)"
-  sudo sed -i 's/^#*\s*server localhost:8082;/server localhost:8082;/' "$CONF"
-  sudo sed -i 's/^.*server localhost:8081;/# server localhost:8081;/' "$CONF"
+  sudo sed -i 's/^\s*server localhost:8082;/# server localhost:8082;/' "$CONF"
+  sudo sed -i 's/^#*\s*server localhost:8081;/server localhost:8081;/' "$CONF"
   ACTIVE_PORT=8082
   NEXT_APP="spring-blue"
   NEXT_PORT=8081
