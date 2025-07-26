@@ -2,14 +2,12 @@
 CONF="/etc/nginx/conf.d/app.conf"
 
 # 현재 사용 중인 포트 추출
-if [ "$ACTIVE_PORT" -eq 8081 ]; then
-  # 현재 blue → green 전환
-  echo "[INFO] Switching traffic to BLUE (8081)"
+if [ "$NEXT_PORT" -eq 8082 ]; then
+  echo "[INFO] Switching traffic to GREEN (8082)"
   sudo sed -i 's/^.*server localhost:8081;/# server localhost:8081;/' "$CONF"
   sudo sed -i 's/^#*\s*server localhost:8082;/server localhost:8082;/' "$CONF"
 else
-  # 현재 green → blue 전환
-  echo "[INFO] Switching traffic to GREEN (8082)"
+  echo "[INFO] Switching traffic to BLUE (8081)"
   sudo sed -i 's/^\s*server localhost:8082;/# server localhost:8082;/' "$CONF"
   sudo sed -i 's/^#*\s*server localhost:8081;/server localhost:8081;/' "$CONF"
 fi
