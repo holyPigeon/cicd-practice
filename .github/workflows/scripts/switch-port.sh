@@ -16,4 +16,5 @@ echo "[INFO] Traffic switching complete"
 
 # Nginx 설정 테스트 및 reload
 echo "[INFO] Reloading Nginx with new config"
-sudo nginx -t && sudo nginx -s reload
+sudo nginx -t && sudo kill -HUP $(cat /var/run/nginx.pid)
+
