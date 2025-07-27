@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   spring-blue:
     image: ${DOCKER_USERNAME}/spring-app:latest
