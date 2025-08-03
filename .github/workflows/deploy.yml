@@ -52,7 +52,7 @@ jobs:
           password: ${{ secrets.SERVER_PASSWORD }}
           port: ${{ secrets.SERVER_PORT }}
           source: "./docker-compose.yml"
-          target: "~/cicd-practice/"
+          target: "~/"
 
       - name: "무중단 배포 관련 스크립트 SCP 전송"
         uses: appleboy/scp-action@master
@@ -62,7 +62,7 @@ jobs:
           password: ${{ secrets.SERVER_PASSWORD }}
           port: ${{ secrets.SERVER_SSH_PORT }}
           source: ".github/workflows/scripts/*.sh"
-          target: "~/cicd-practice/"
+          target: "~/github-scripts/"
 
       - name: "애플리케이션 서버 구동"
         uses: appleboy/ssh-action@v1.1.0
